@@ -26,7 +26,29 @@
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
         ga('create', '{{ GOOGLE_ANALYTICS_UNIVERSAL }}', '{{ GOOGLE_ANALYTICS_UNIVERSAL_PROPERTY }}');
-        ga('send', 'pageview');
+        
+        {% if page %}
+        ga('send', 'pageview', {
+            'page': '/{{ page.url }}',
+            'title': '{{ page.title }}', 
+        });
+        {% elif article %}
+        ga('send', 'pageview', {
+            'page': '/{{ article.url }}',
+            'title': '{{ article.title }}', 
+        });
+        {% elif page_name == 'index'  %}
+        ga('send', 'pageview', {
+            'page': '/{{ output_file }}',
+            'title': '@zytek - Personal blog of Jakub Paweł Głazik', 
+        });
+        {% else %}
+        ga('send', 'pageview', {
+            'page': '/{{ output_file }}',
+            'title': '{{ page_name }}', 
+        });
+        {% endif %}
+
     </script>
     <!-- End Google Analytics Universal Code -->
 {% endif %}
